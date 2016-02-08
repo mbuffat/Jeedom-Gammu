@@ -11,7 +11,7 @@ Ayant découvert récemment la domotique avec [JEEDOM](https://www.jeedom.com/si
 
 > Dans JEEDOM, il existe un [plugin SMS](https://www.jeedom.com/doc/documentation/plugins/sms/fr_FR/sms) développé par Loïc et Mathieu, qui est la solution la plus simple pour gérer les SMS sous JEEDOM. Malheureusement le nombre de clé GSMS supporté est limité et la clé que je possède ne fonctionne pas avec le plugin.
 
-- Clé USB UMTS HSDPA UMTS Huawei E169 [voir ici p.e.](http://www.amazon.fr/gp/product/B004DEJEMY?psc=1&redirect=true&ref_=oh_aui_detailpage_o09_s00)
+- Clé USB UMTS HSDPA UMTS [Huawei E169](http://www.amazon.fr/gp/product/B004DEJEMY?psc=1&redirect=true&ref_=oh_aui_detailpage_o09_s00)
 
 Ayant trouver une solution avec GAMMU, je vous propose donc de la partager sous github
 
@@ -63,31 +63,26 @@ Les points importants de l aconfiguration
   
 ```
 > sudo gammu_detect
-
 ; Fichier de configuration généré par gammu-detect.
 ; Please check The Gammu Manual for more information.
-
 [gammu]
 device = /dev/ttyUSB0
 name = Téléphone sur le port USB série HUAWEI_Mobile
 connection = at
-
 [gammu1]
 device = /dev/ttyUSB1
 name = Téléphone sur le port USB série HUAWEI_Mobile
 connection = at
-
 [gammu2]
 device = /dev/ttyUSB2
 name = Téléphone sur le port USB série HUAWEI_Mobile
 connection = at
-
 [gammu3]
 device = /dev/ttyACM0
 name = Arduino_Srl Arduino_Uno
 connection = at
 ```
-En général plusieurs ports ttyUSB sont crées. Dans mon cas j'ai choisi /dev/ttyUSB2.
+En général plusieurs ports ttyUSB sont crées. Dans mon cas j'ai choisi **/dev/ttyUSB2**.
 N'oublier pas de spécifier le code PIN de la carte SMS (free dans mon cas)
 
 - Spécifier le script Unix a executer lors de la reception d'un SMS dans la variable **RunOnReceive = **
@@ -100,10 +95,12 @@ ce script dans **/var/spool/gammu/SMSDreceive.sh** sera détailler plus loin.
 sudo service gammu-smsd start
 ```
 Il sera ensuite automatiquement lancé à chaque redémarage du système
+
+Pour vérifier l'état du daemon, on utilise la commande:
 ```
 sudo service gammu-smsd status
 ```
-pour vérifier l'état du daemon.
+
 
 Pour tester l'envoi de SMS:
 ```
@@ -112,7 +109,7 @@ sudo gammu-smsd-inject TEXT numero_telephone -text "ceci est un test de SMS"
 ## envoi de SMS 
 Pour envoyer un SMS il suffit de créer un fichier script **SMSDsend.sh**, que l'on place dans le répertoire
 des scripts utilisateurs:
-** /usr/share/nginx/www/jeedom/plugins/script/core/ressources**
+ **/usr/share/nginx/www/jeedom/plugins/script/core/ressources**
 ```
 #! /bin/bash
 # envoie de SMS avec GAMMU: 2 arguments telephone et message
@@ -162,7 +159,7 @@ exit 0
 ```
 Ce script recupère les informatins du SMS et envoie le message à Jeedom en execution une requête d'interaction en excutant un script php **JEEDOM_interact.php**. En cas de succès, le script envoie la réponse par SMS à l'appelant.
 
-Le script php *JEEDOM_interact.php** est placé dans me répertoire des scripts utilisateurs JEEDOM:
+Le script php **JEEDOM_interact.php** est placé dans me répertoire des scripts utilisateurs JEEDOM:
 ```
 <?php
 $URL_JEEDOM="http://adresse IP du raspberry/jeedom";
@@ -181,9 +178,6 @@ if (strncmp($argv[1],"JEEDOM ",7)==0) {
    echo "-1";
 }
 ?>
-Il utilise la classe jsonrpcClient de Loic Gevrey, dont une version se trouve dans le dépot git ainsi que toys les fichiers.
-
 ```
-
-Cela permet d'envoyer des SMS à JEEDOM pour avoir l'état des différents capteurs, alarmes ,...
+Ce script php  utilise la classe jsonrpcClient de Loic Gevrey, dont une version se trouve dans le dépot git ainsi que tous les fichiers scripts décrits. IL suffit donc de récupérer le dépot git et de modifier ces fichiers pour les adapter à votre environnement.
 
