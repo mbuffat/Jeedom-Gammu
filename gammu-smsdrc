@@ -1,0 +1,29 @@
+# Gammu library configuration, see gammurc(5)
+[gammu]
+# Please configure this!
+port = /dev/ttyUSB2
+connection = at
+GammuLoc = fr_FR.UTF8
+gammucoding = utf8
+#LogFormat = nothing
+# SMSD configuration, see gammu-smsdrc(5)
+[smsd]
+logfile = syslog
+# Increase for debugging information
+debuglevel = 0
+#
+RunOnReceive = /var/spool/gammu/SMSDreceive.sh
+pin = 1234
+#service = null
+# Paths where messages are stored
+service = files
+inboxpath = /var/spool/gammu/inbox/
+outboxpath = /var/spool/gammu/outbox/
+sentsmspath = /var/spool/gammu/sent/
+errorsmspath = /var/spool/gammu/error/
+#
+[include_numbers]
+number1 = +33xxxxxxxx
+number2 = +33xxxxxxxx
+number3 = +33xxxxxxxx
+#
