@@ -1,6 +1,6 @@
 #  Jeedom-Gammu
 
-# interface gammu avec Jeedom pour la gestion des SMS
+# interface Jeedom/Gammu pour la gestion des SMS
 
 ## Introduction
 Ayant découvert récemment la domotique avec [JEEDOM](https://www.jeedom.com/site/fr/), un logiciel de domotique open-source pouvant s'installer sur un Raspberry avec une communauté dynamique, j'ai voulu sécuriser ma domotique Jeedom sous Raspberry avec un dongle USB GSM pour:
