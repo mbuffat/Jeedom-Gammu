@@ -179,3 +179,4 @@ if (strncmp($argv[1],"JEEDOM ",7)==0) {
 ```
 Ce script php  utilise la classe jsonrpcClient de Loic Gevrey, dont une version se trouve dans le dépôt git ainsi que tous les fichiers scripts décrits. IL suffit donc de récupérer le dépôt git et de modifier ces fichiers pour les adapter à votre environnement.
 
+**Marc BUFFAT  2016**
