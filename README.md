@@ -24,7 +24,7 @@ Ayant trouver une solution avec GAMMU, je vous propose donc de la partager sous 
 sudo apt-get update
 sudo apt-get -y install gammu gammu-smsd python-gammu
 ```
-[GAMMU](http://fr.wammu.eu/) est le nom du projet et de l'utilitaire en ligne de commande qui vous permet de de contrôler votre téléphone.  [La base de compatibilité Gammu](http://fr.wammu.eu/phones/) avec les téléphones est assez impressionante et il fonctionne sous la majorité des distributions Linux.
+[GAMMU](http://fr.wammu.eu/) est le nom du projet et de l'utilitaire en ligne de commande qui vous permet de de contrôler votre téléphone.  [La base de compatibilité Gammu](http://fr.wammu.eu/phones/) avec les téléphones est assez impressionnante et il fonctionne sous la majorité des distributions Linux.
 
 ## Configuration de Gammu-smsd
 L'objectif est de configurer un daemon Unix qui se charge de recevoir et d'envoyer les SMS.
@@ -58,7 +58,7 @@ errorsmspath = /var/spool/gammu/error/
 number1 = +33xxxxxxxx
 number2 = +33xxxxxxxx
 ```
-Les points importants de l aconfiguration
+Les points importants de la configuration
  - spécifier le bon port USB dans la variable **port =** pour le dongle GSM. Pour cela taper:
   
 ```
@@ -85,7 +85,7 @@ connection = at
 En général plusieurs ports ttyUSB sont crées. Dans mon cas j'ai choisi **/dev/ttyUSB2**.
 N'oublier pas de spécifier le code PIN de la carte SMS (free dans mon cas)
 
-- Spécifier le script Unix a executer lors de la reception d'un SMS dans la variable **RunOnReceive = **
+- Spécifier le script Unix à exécuter lors de la réception d'un SMS dans la variable **RunOnReceive =**
 ce script dans **/var/spool/gammu/SMSDreceive.sh** sera détailler plus loin.
 
 - Enfin pour des questions de sécurité, n'autoriser que certains numéros de téléphone à envoyer des SMS à gammu (et donc jeedom) en spécifiant les numéros à la fin (number1, number2, ...)
@@ -94,7 +94,7 @@ ce script dans **/var/spool/gammu/SMSDreceive.sh** sera détailler plus loin.
 ```
 sudo service gammu-smsd start
 ```
-Il sera ensuite automatiquement lancé à chaque redémarage du système
+Il sera ensuite automatiquement lancé à chaque redémarrage du système
 
 Pour vérifier l'état du daemon, on utilise la commande:
 ```
@@ -107,8 +107,7 @@ Pour tester l'envoi de SMS:
 sudo gammu-smsd-inject TEXT numero_telephone -text "ceci est un test de SMS"
 ```
 ## envoi de SMS 
-Pour envoyer un SMS il suffit de créer un fichier script **SMSDsend.sh**, que l'on place dans le répertoire
-des scripts utilisateurs:
+Pour envoyer un SMS il suffit de créer un fichier script **SMSDsend.sh**, que l'on place dans le répertoire des scripts utilisateurs:
  **/usr/share/nginx/www/jeedom/plugins/script/core/ressources**
 ```
 #! /bin/bash
@@ -129,11 +128,10 @@ avec la requête:
 ```
 /usr/share/nginx/www/jeedom/plugins/script/core/ressources/SMSDsend.sh  #title# "#message#"
 ```
-On alors sur le dashboard Jeedom une commande sendSMS  avec un titre qui correspond au numéro de téléphone
-et un message contenant le message du SMS à envoyer. On l'inclut ensuite dabs les scénarios pour toutes les notifications (alarme, onduleur, ..)
+On alors sur le dashboard Jeedom une commande sendSMS  avec un titre qui correspond au numéro de téléphone et un message contenant le message du SMS à envoyer. On l'inclut ensuite dans les scénarios pour toutes les notifications (alarme, onduleur, ..)
 
 ## reception de SMS
-lors de la reception de SMS par GAmmu, le daemon execute le script définit dans le fichier de configuration **/var/spool/gammu/SMSDreceive.sh**
+lors de la réception de SMS par GAmmu, le daemon exécute le script définit dans le fichier de configuration **/var/spool/gammu/SMSDreceive.sh**
 ```
 #!/bin/sh
 # script executer par Gammu lors de la reception d'un SMS
@@ -157,7 +155,7 @@ echo `date`" JEEDOM SMS from "$FROM" : "$MESSAGE" file="$FILE" reponse="$REP >> 
 rm $INPUT/$FILE
 exit 0
 ```
-Ce script recupère les informatins du SMS et envoie le message à Jeedom en execution une requête d'interaction en excutant un script php **JEEDOM_interact.php**. En cas de succès, le script envoie la réponse par SMS à l'appelant. A la fin le script efface le SMS du répertoire GAMMU inox. De même on peut rajouter la purge du répertoire GAMMU send qui contient une copie des SMS envoyés.
+Ce script récupère les informations du SMS et envoie le message à Jeedom en exécution une requête d'interaction à l'aide d'un script php **JEEDOM_interact.php**. En cas de succès, le script envoie la réponse par SMS à l'appelant. A la fin le script efface le SMS du répertoire GAMMU inbox. De même on peut rajouter la purge du répertoire GAMMU send qui contient une copie des SMS envoyés.
 
 Le script php **JEEDOM_interact.php** est placé dans me répertoire des scripts utilisateurs JEEDOM:
 ```
@@ -179,5 +177,5 @@ if (strncmp($argv[1],"JEEDOM ",7)==0) {
 }
 ?>
 ```
-Ce script php  utilise la classe jsonrpcClient de Loic Gevrey, dont une version se trouve dans le dépot git ainsi que tous les fichiers scripts décrits. IL suffit donc de récupérer le dépot git et de modifier ces fichiers pour les adapter à votre environnement.
+Ce script php  utilise la classe jsonrpcClient de Loic Gevrey, dont une version se trouve dans le dépôt git ainsi que tous les fichiers scripts décrits. IL suffit donc de récupérer le dépôt git et de modifier ces fichiers pour les adapter à votre environnement.
 
