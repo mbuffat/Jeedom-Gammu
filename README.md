@@ -157,7 +157,7 @@ echo `date`" JEEDOM SMS from "$FROM" : "$MESSAGE" file="$FILE" reponse="$REP >> 
 rm $INPUT/$FILE
 exit 0
 ```
-Ce script recupère les informatins du SMS et envoie le message à Jeedom en execution une requête d'interaction en excutant un script php **JEEDOM_interact.php**. En cas de succès, le script envoie la réponse par SMS à l'appelant.
+Ce script recupère les informatins du SMS et envoie le message à Jeedom en execution une requête d'interaction en excutant un script php **JEEDOM_interact.php**. En cas de succès, le script envoie la réponse par SMS à l'appelant. A la fin le script efface le SMS du répertoire GAMMU inox. De même on peut rajouter la purge du répertoire GAMMU send qui contient une copie des SMS envoyés.
 
 Le script php **JEEDOM_interact.php** est placé dans me répertoire des scripts utilisateurs JEEDOM:
 ```
