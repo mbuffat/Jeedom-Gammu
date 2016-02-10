@@ -24,7 +24,7 @@ Ayant trouver une solution avec GAMMU, je vous propose donc de la partager sous 
 sudo apt-get update
 sudo apt-get -y install gammu gammu-smsd python-gammu
 ```
-[GAMMU](http://fr.wammu.eu/) est le nom du projet et de l'utilitaire en ligne de commande qui vous permet de de contrôler votre téléphone.  [La base de compatibilité Gammu](http://fr.wammu.eu/phones/) avec les téléphones est assez impressionnante et il fonctionne sous la majorité des distributions Linux.
+[GAMMU](http://fr.wammu.eu/) est le nom du projet et de l'utilitaire en ligne de commande qui vous permet de de contrôler votre téléphone.  [La base de compatibilité Gammu](http://fr.wammu.eu/phones/) avec les téléphones est assez impressionnante et il fonctionne avec la majorité des distributions Linux.
 
 ## Configuration de Gammu-smsd
 L'objectif est de configurer un daemon Unix qui se charge de recevoir et d'envoyer les SMS.
@@ -83,7 +83,7 @@ name = Arduino_Srl Arduino_Uno
 connection = at
 ```
 En général plusieurs ports ttyUSB sont crées. Dans mon cas j'ai choisi **/dev/ttyUSB2**.
-N'oublier pas de spécifier le code PIN de la carte SMS (free dans mon cas)
+N'oublier pas de spécifier le code PIN de la carte SIM
 
 - Spécifier le script Unix à exécuter lors de la réception d'un SMS dans la variable **RunOnReceive =**
 ce script dans **/var/spool/gammu/SMSDreceive.sh** sera détailler plus loin.
@@ -155,9 +155,9 @@ echo `date`" JEEDOM SMS from "$FROM" : "$MESSAGE" file="$FILE" reponse="$REP >> 
 rm $INPUT/$FILE
 exit 0
 ```
-Ce script récupère les informations du SMS et envoie le message à Jeedom en exécution une requête d'interaction à l'aide d'un script php **JEEDOM_interact.php**. En cas de succès, le script envoie la réponse par SMS à l'appelant. A la fin le script efface le SMS du répertoire GAMMU inbox. De même on peut rajouter la purge du répertoire GAMMU send qui contient une copie des SMS envoyés en ajoutant après le if:
+Ce script récupère les informations du SMS et envoie le message à Jeedom en exécution une requête d'interaction à l'aide d'un script php **JEEDOM_interact.php**. En cas de succès, le script envoie la réponse par SMS à l'appelant. A la fin le script efface le SMS du répertoire GAMMU inbox. De même on peut rajouter la purge du répertoire GAMMU **sent** qui contient une copie des SMS envoyés en ajoutant après le if:
 ```
-rm -f $SEND/*smsbackup
+rm -f /var/spool/gammu/sent/*smsbackup
 
 ```
 
