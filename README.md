@@ -155,7 +155,11 @@ echo `date`" JEEDOM SMS from "$FROM" : "$MESSAGE" file="$FILE" reponse="$REP >> 
 rm $INPUT/$FILE
 exit 0
 ```
-Ce script récupère les informations du SMS et envoie le message à Jeedom en exécution une requête d'interaction à l'aide d'un script php **JEEDOM_interact.php**. En cas de succès, le script envoie la réponse par SMS à l'appelant. A la fin le script efface le SMS du répertoire GAMMU inbox. De même on peut rajouter la purge du répertoire GAMMU send qui contient une copie des SMS envoyés.
+Ce script récupère les informations du SMS et envoie le message à Jeedom en exécution une requête d'interaction à l'aide d'un script php **JEEDOM_interact.php**. En cas de succès, le script envoie la réponse par SMS à l'appelant. A la fin le script efface le SMS du répertoire GAMMU inbox. De même on peut rajouter la purge du répertoire GAMMU send qui contient une copie des SMS envoyés en ajoutant après le if:
+```
+rm -f $SEND/*smsbackup
+
+```
 
 Le script php **JEEDOM_interact.php** est placé dans me répertoire des scripts utilisateurs JEEDOM:
 ```
@@ -177,6 +181,13 @@ if (strncmp($argv[1],"JEEDOM ",7)==0) {
 }
 ?>
 ```
+Ce script décode tout d'abord le SMS pour savoir si c'est une commande à envoyer à JEEDOM. Pour cela le texte du SMS doit 
+s'écrire:
+```
+JEEDOM commande_jeedom
+```
+où **commande_jeedom** est la commande passer à l'interpréteur d'interaction de Jeedom.
+
 Ce script php  utilise la classe jsonrpcClient de Loic Gevrey, dont une version se trouve dans le dépôt git ainsi que tous les fichiers scripts décrits. IL suffit donc de récupérer le dépôt git et de modifier ces fichiers pour les adapter à votre environnement.
 
 **Marc BUFFAT  2016**
