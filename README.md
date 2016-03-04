@@ -90,6 +90,11 @@ ce script dans **/var/spool/gammu/SMSDreceive.sh** sera détailler plus loin.
 
 - Enfin pour des questions de sécurité, n'autoriser que certains numéros de téléphone à envoyer des SMS à gammu (et donc jeedom) en spécifiant les numéros à la fin (number1, number2, ...)
 
+- configuration du daemon (new)
+attention: pour pouvoir utiliser led interactions avec JEEDOM il faut que le daemon gammu-smd soit sous root.
+
+dans le script du service gammu **/etc/init.d/gammu-smsd** remplacer **USER=gammu** par **USER=root**
+
 - Lancer le service gammu-smsd
 ```
 sudo service gammu-smsd start
@@ -162,13 +167,15 @@ rm -f /var/spool/gammu/sent/*smsbackup
 ```
 
 Le script php **JEEDOM_interact.php** est placé dans me répertoire des scripts utilisateurs JEEDOM:
+si vous voulez utiliser un mot clé JEEDOM dans le SMs, enlever les commentaires 
+à la ligne if (strncmp($argv[1],"JEEDOM ",7)==0 et pour le else
 ```
 <?php
 $URL_JEEDOM="http://adresse IP du raspberry/jeedom";
 $API_KEY="cle API";
 require 'jsonrpcClient.class.php';
-// recherche JEEDOM
-if (strncmp($argv[1],"JEEDOM ",7)==0) {
+// recherche mot cle JEEDOM
+// if (strncmp($argv[1],"JEEDOM ",7)==0) {
   $jsonrpc = new jsonrpcClient($URL_JEEDOM.'/core/api/jeeApi.php', $API_KEY);
   $message= substr($argv[1],7);
   if($jsonrpc->sendRequest('interact::tryToReply', array('query'=>$message))){
@@ -176,9 +183,9 @@ if (strncmp($argv[1],"JEEDOM ",7)==0) {
   }else{
     echo $jsonrpc->getError();
   }
-} else {
-   echo "-1";
-}
+//} else {
+//   echo "-1";
+//}
 ?>
 ```
 Ce script décode tout d'abord le SMS pour savoir si c'est une commande à envoyer à JEEDOM. Pour cela le texte du SMS doit 
