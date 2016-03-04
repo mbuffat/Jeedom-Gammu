@@ -15,7 +15,7 @@ PHPDIR="/usr/share/nginx/www/jeedom/plugins/script/core/ressources"
 INPUT="/var/spool/gammu/inbox/"
 REP=`/usr/bin/php $PHPDIR/JEEDOM_interact.php "$MESSAGE"`
 if [ "$REP" != "-1" ]; then
-  /usr/bin/gammu-smsd-inject TEXT $FROM -text "$REP" >/var/spool/gammu/LOG
+  sudo /usr/bin/gammu-smsd-inject TEXT $FROM -text "$REP" >/var/spool/gammu/LOG
 fi
 echo `date`" JEEDOM SMS from "$FROM" : "$MESSAGE" file="$FILE" reponse="$REP >> $LOG
 rm $INPUT/$FILE
