@@ -90,10 +90,15 @@ ce script dans **/var/spool/gammu/SMSDreceive.sh** sera détailler plus loin.
 
 - Enfin pour des questions de sécurité, n'autoriser que certains numéros de téléphone à envoyer des SMS à gammu (et donc jeedom) en spécifiant les numéros à la fin (number1, number2, ...)
 
-- configuration du daemon (new)
-attention: pour pouvoir utiliser led interactions avec JEEDOM il faut que le daemon gammu-smd soit sous root.
+- **(new)** configuration du daemon gammu-smsd
+- 
+attention: pour pouvoir utiliser les interactions avec JEEDOM il faut que le daemon gammu-smd soit sous root.
 
 dans le script du service gammu **/etc/init.d/gammu-smsd** remplacer **USER=gammu** par **USER=root**
+
+avec $$visudo** ajouter aussi la ligne
+
+gammu ALL=(ALL) NOPASSWD: /usr/bin/gammu-smsd-inject
 
 - Lancer le service gammu-smsd
 ```
