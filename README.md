@@ -203,4 +203,57 @@ où **commande_jeedom** est la commande passer à l'interpréteur d'interaction 
 
 Ce script php  utilise la classe jsonrpcClient de Loic Gevrey, dont une version se trouve dans le dépôt git ainsi que tous les fichiers scripts décrits. IL suffit donc de récupérer le dépôt git et de modifier ces fichiers pour les adapter à votre environnement.
 
+## utilisation du plugin GAMMU
+@lunarok a écrit un plugin permettant d'automatiser l'utilisation de gammu sous jeedom, que je vous conseille.
+
+## Résolution des problèmes
+
+- le plugin de @lunarok utilise gammu et le daemon gammu-smd pour la gestion des SMS. Il faut donc vérifier dans la base de données 
+
+[http://fr.wammu.eu/phones]   si la clé USB ou le téléphone est bien supporté
+
+- installé ensuite la clé puis le plugin et faire un test en envoyant un SMS avec le plugin. Attention le numéro de téléphone doit être  écrit au format standard : +336xxxxxxx
+
+- en cas de problème ou pour vérifier la configuration, il faut se connecter en ligne de commande par ssh sur la machine JEEDOM
+
+- vérifier que le daemon gammu-smd est actif  avec la commande:
+```
+sudo service gammu-smsd status
+```
+La réponse doit contenir un etat active(running)
+
+  gammu-smsd.service - LSB: Gammu SMS daemon
+   Loaded: loaded (/etc/init.d/gammu-smsd)
+   Active: active (running) since dim. 2016-03-06 11:28:03 CET; 4h 21min ago
+ ......
+
+Dans le cas contraire, il faut essayer de redémarrer le service avec
+```
+sudo service gammu-smsd restart
+```
+
+- essayer d'envoyer un SMS directement avec gammu en spécifiant un numéro de téléphone +336xxxx et un message
+```
+sudo /usr/bin/gammu-smsd-inject TEXT +336xxxx -text "mon message SMS"
+```
+
+[*] lancer un outil de monitoring du fonctionnement de gammu
+```
+ sudo gammu-smsd-monitor
+```
+qui indique en particulier le niveau du signal, le nombre de SMS envoyés et reçus (sortir en tapant ^C)
+
+- vérifier les permissions: en particulier le daemon gammu-smd tourne sous le compte gammu, et dans les  scripts on fait des sudo.
+Il faut donc que l'utilisateur gammu soit dans la base sudo. Pour cela utiliser [b]visudo[/b] et ajouter à la fin la ligne
+```
+gammu ALL=(ALL) NOPASSWD: /usr/bin/gammu-smsd-inject
+```
+
+- regarder dans le répertoire [b]/var/spool/gammu[/b] les sous-répertoires error,  inbox et outbox pour une copie des SMS envoyés ou reçus
+
+- regarder dans les logs, en particulier dans /var/log/syslog les messages de gammu
+
+Le système avec gammu, une fois bien configuré est très robuste et stable et permet une interaction simple avec le plugin JEEDOM pour envoyer ou recevoir des SMS avec le système d' interactions de JEEDOM. Je l'utilise pour envoyer l'état de mon alarme et passer des commandes à JEEDOM, qui par les SMS est plus fiable qu'en 3G.
+
+Je l'utilise avec une Clé USB UMTS HSDPA UMTS Huawei E169 à 30€ connecté en USB sur mon pi2 et une carte FREE à 2€
 **Marc BUFFAT  2016**
