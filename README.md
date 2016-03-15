@@ -11,7 +11,7 @@ Ayant découvert récemment la domotique avec [JEEDOM](https://www.jeedom.com/si
 
 > Dans JEEDOM, il existe un [plugin SMS](https://www.jeedom.com/doc/documentation/plugins/sms/fr_FR/sms) développé par Loïc et Mathieu, qui est la solution la plus simple pour gérer les SMS sous JEEDOM. Malheureusement le nombre de clé GSMS supporté est limité et la clé que je possède ne fonctionne pas avec le plugin.
 
-> NOUVEAU: sous JEEDOM il existe maintenant un plugin Gammu qui autoostise l'installation et l'utilisation de gammu. C'est ce que j'utilise maintenant. Ce qui est décrit ici permet cependant de comprendre le fonctionnement du plugin et d'aider à résoudre éventuellement les problèmes.
+> NOUVEAU: sous JEEDOM il existe maintenant un plugin Gammu qui automatise l'installation et l'utilisation de gammu. C'est ce que j'utilise maintenant. Ce qui est décrit ici permet cependant de comprendre le fonctionnement du plugin et d'aider à résoudre éventuellement les problèmes.
 
 - Clé USB UMTS HSDPA UMTS [Huawei E169](http://www.amazon.fr/gp/product/B004DEJEMY?psc=1&redirect=true&ref_=oh_aui_detailpage_o09_s00)
 
